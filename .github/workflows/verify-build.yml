@@ -1,0 +1,51 @@
+name: Verify build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: npm ci
+        run: npm ci
+
+      - name: build
+        run: npm run build
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: npm ci
+        run: npm ci
+
+      - name: build
+        run: npm run build
+
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: npm ci
+        run: npm ci
+
+      - name: build
+        run: npm run build
